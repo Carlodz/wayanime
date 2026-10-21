@@ -1,0 +1,164 @@
+/* ===== PROFILE CARD — Nimbro-style (white card, banner on top, round avatar overlapping, black pill) ===== */
+html:root body #profile.pop,html:root body #fprof.pop{
+  width:min(400px,94vw);padding:0;border:0;border-radius:30px;overflow-x:hidden;color:#0a0a0a;
+  background:#fff;background-image:none;
+  box-shadow:0 30px 80px -14px rgba(0,0,40,.75),0 0 0 1px rgba(255,255,255,.06)}
+/* top controls float on the banner */
+html:root body #profile.pop .ppctl,html:root body #fprof.pop .ppctl{position:absolute;top:12px;inset-inline-end:12px;z-index:5;margin:0;gap:8px}
+html:root body #profile.pop .ppctl b,html:root body #fprof.pop .ppctl b{display:none}
+html:root body #profile.pop .pclose,html:root body #fprof.pop .pclose,html:root body #profile.pop .gearbtn{width:36px;height:36px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.28);color:#fff;backdrop-filter:blur(6px)}
+/* banner */
+html:root body #profile.pop .pban,html:root body #fprof.pop .pban{height:190px;margin:0;border-radius:0;border:0;box-shadow:none;animation:none}
+html:root body #profile.pop .pban::before,html:root body #fprof.pop .pban::before{display:none}
+html:root body #profile.pop .pban::after,html:root body #fprof.pop .pban::after{background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.35))}
+/* avatar + name */
+html:root body #profile.pop .ph0,html:root body #fprof.pop .ph0{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"av act" "nm nm";align-items:start;column-gap:14px;row-gap:12px;padding:0 24px;margin:-46px 0 0}
+html:root body #profile.pop .ph0>img:not(.vchk):not(.cflag):not(.gbadge),html:root body #fprof.pop .ph0>img:not(.vchk):not(.cflag):not(.gbadge){grid-area:av;width:92px;height:92px;border-radius:50%;object-fit:cover;background:#fff;box-shadow:0 0 0 5px #fff,0 8px 22px -8px rgba(0,0,60,.5)}
+html:root body #profile.pop .ph0>div,html:root body #fprof.pop .ph0>div{grid-area:nm;min-width:0}
+html:root body #profile.pop .ph0 b,html:root body #fprof.pop .ph0 b{display:block;font-size:1.35rem;font-weight:700;color:#0a0a0a;text-shadow:none;line-height:1.2}
+html:root body #profile.pop .ph0 b .vchk,html:root body #fprof.pop .ph0 b .vchk{width:1.1em;height:1.1em}
+html:root body #profile.pop .ph0 small,html:root body #fprof.pop .ph0 small{font-size:1rem;font-weight:400;color:#111;letter-spacing:0;text-transform:none}
+html:root body #profile.pop .ph0 small.rl,html:root body #fprof.pop .ph0 small.rl{margin-top:2px}
+html:root body #profile.pop .ph0 small.rl.r-owner{color:#e0243a}
+/* black pill (own profile: change photo) */
+html:root body #profile.pop .ph0>.fb[data-pf="pick"]{display:flex!important;grid-area:act;align-self:center;justify-content:center;width:100%;margin:60px 0 0;height:46px;padding:0 18px;border-radius:999px;border:0;box-shadow:none!important;background:#050507;color:#fff;font-weight:700;font-size:1rem;font-family:inherit;cursor:pointer}
+html:root body #profile.pop .ph0>.fb[data-pf="pick"]:hover{background:#1b1b24}
+/* settings / pickers on white */
+html:root body #profile.pop .pset,html:root body #profile.pop .bgp{margin:14px 24px 0;background:#f3f4f8;border:1px solid #e3e5ee}
+html:root body #profile.pop .pset .fb.g{background:#fff;border:1px solid #d9dce6;color:#0a0a0a}
+/* status (friend) + status editor/country (own) */
+html:root body #fprof.pop .fst{margin:10px 24px 0;padding:0;background:none;color:#333;font-size:.95rem}
+html:root body #profile.pop .ph0 input,html:root body #profile.pop .ph0 select{background:#f3f4f8;color:#0a0a0a;border:1px solid #d9dce6}
+/* friend actions */
+html:root body #fprof.pop .fact{margin:18px 24px 0;padding-bottom:24px}
+html:root body #fprof.pop .fact .fb{height:44px;padding:0 18px;border-radius:999px;font-weight:700;font-size:.95rem;font-family:inherit;background:#050507;color:#fff;border:0}
+html:root body #fprof.pop .fact .fb.g{background:#fff;color:#0a0a0a;border:1.5px solid #d4d7e2}
+html:root body #fprof.pop .fact .fb.g:hover{background:#f1f2f7}
+html:root body #fprof.pop .fact .fb{box-shadow:none!important;filter:none!important;text-shadow:none}
+html:root body #fprof.pop .fact .fb::after,html:root body #profile.pop .pset .fb::after{display:none}
+html:root body #profile.pop{padding-bottom:24px}
+/* aura owners: same white card, with a glowing red edge + a shine sweep (text untouched) */
+@keyframes pcshine{0%{background-position:160% 0}100%{background-position:-60% 0}}
+@keyframes pcglow{0%,100%{box-shadow:0 0 0 2px #ff2d3d,0 0 22px 2px rgba(255,45,61,.55),0 30px 80px -14px rgba(0,0,0,.8)}50%{box-shadow:0 0 0 2px #ff5a6e,0 0 46px 8px rgba(255,45,61,.85),0 30px 80px -14px rgba(0,0,0,.8)}}
+@keyframes pcring{0%,100%{box-shadow:0 0 0 5px #fff,0 0 0 8px #ff2d3d,0 0 16px 4px rgba(255,45,61,.5)}50%{box-shadow:0 0 0 5px #fff,0 0 0 8px #ff5a6e,0 0 30px 10px rgba(255,45,61,.9)}}
+html:root body #profile.pop:has(.pban.aurf),html:root body #fprof.pop:has(.pban.aurf){background:#fff;color:#0a0a0a;padding:0;border:0;border-radius:30px;animation:pcglow 2.6s ease-in-out infinite}
+html:root body #profile.pop:has(.pban.aurf)::after,html:root body #fprof.pop:has(.pban.aurf)::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.75) 50%,rgba(255,170,178,.35) 54%,transparent 62%);background-size:250% 100%;animation:pcshine 3.4s ease-in-out infinite}
+html:root body #profile.pop:has(.pban.aurf) .pban.aurf,html:root body #fprof.pop:has(.pban.aurf) .pban.aurf{border:0!important;border-radius:0;box-shadow:none;animation:none}
+html:root body #profile.pop:has(.pban.aurf) .ph0 img:not(.vchk):not(.cflag):not(.gbadge),html:root body #fprof.pop:has(.pban.aurf) .ph0 img:not(.vchk):not(.cflag):not(.gbadge){width:92px;height:92px;animation:pcring 2.6s ease-in-out infinite}
+html:root body #profile.pop:has(.pban.aurf) .ph0 b,html:root body #fprof.pop:has(.pban.aurf) .ph0 b{color:#0a0a0a;text-shadow:none}
+html:root body #profile.pop:has(.pban.aurf) .ph0 small,html:root body #fprof.pop:has(.pban.aurf) .ph0 small,html:root body #fprof.pop:has(.pban.aurf) .fst{color:#333}
+html:root body #profile.pop:has(.pban.aurf) .ph0 small.rl.r-owner{color:#e0243a}
+html:root body #profile.pop:has(.pban.aurf) .pclose,html:root body #fprof.pop:has(.pban.aurf) .pclose,html:root body #profile.pop:has(.pban.aurf) .gearbtn{background:rgba(0,0,0,.45);border-color:rgba(255,255,255,.28);color:#fff}
+html:root body #profile.pop:has(.pban.aurf) .pset,html:root body #profile.pop:has(.pban.aurf) .bgp{background:#f3f4f8;border:1px solid #e3e5ee}
+html:root body #profile.pop:has(.pban.aurf) .pset .fb.g,html:root body #fprof.pop:has(.pban.aurf) .fact .fb.g{background:#fff;border:1.5px solid #d4d7e2;color:#0a0a0a}
+html:root body #profile.pop:has(.pban.aurf) .ph0>.fb[data-pf="pick"]{background:#050507;color:#fff;border:0}
+html:root body #fprof.pop:has(.pban.aurf) .fact .fb:not(.g){background:#050507;color:#fff;border:0}
+@media (prefers-reduced-motion:reduce){html:root body #profile.pop:has(.pban.aurf),html:root body #fprof.pop:has(.pban.aurf),html:root body #profile.pop:has(.pban.aurf)::after,html:root body #fprof.pop:has(.pban.aurf)::after,html:root body #profile.pop:has(.pban.aurf) .ph0 img,html:root body #fprof.pop:has(.pban.aurf) .ph0 img{animation:none}}
+@media (max-width:380px){html:root body #profile.pop .pban,html:root body #fprof.pop .pban{height:160px}}
+
+/* ===== STORE — same look: white cards, black pills (text/fonts untouched) ===== */
+html:root body #store{padding:26px;border-radius:30px;background:linear-gradient(180deg,#0a0ae0,#0b0b45);border:0;box-shadow:0 30px 80px -20px rgba(0,0,40,.7)}
+html:root body #store .sth{border:0;border-radius:26px;background:linear-gradient(135deg,#2a2aff,#0a0a5c 80%)}
+html:root body #store .stbal{background:#fff;border:0;border-radius:999px;color:#0a0a0a;padding:10px 26px}
+html:root body #store .stbal small{opacity:.6}
+html:root body #store .stbal b{color:#0a0a0a}
+html:root body #store .stbuy{background:#fff;color:#0a0a0a;border:0;border-radius:24px}
+html:root body #store .stbuy:hover{box-shadow:0 18px 40px -14px rgba(0,0,0,.6)}
+html:root body #store .stbuy em{background:#050507;color:#fff}
+html:root body #store .strt{background:#fff;border:0;border-radius:24px;color:#0a0a0a}
+html:root body #store .strr span{background:#f1f2f7;color:#0a0a0a}
+html:root body #store .strr b{color:#0a0a0a}
+html:root body #store .sttabs button{background:#fff;color:#0a0a0a;border:1.5px solid #d4d7e2}
+html:root body #store .sttabs button.on{background:#050507;color:#fff;border-color:#050507}
+html:root body #store .stm,html:root body #store .ste{color:#fff}
+html:root body #store .sti{background:#fff;color:#0a0a0a;border:0;border-radius:24px;padding:12px}
+html:root body #store .sti:hover{transform:translateY(-3px);box-shadow:0 22px 44px -16px rgba(0,0,0,.7)}
+html:root body #store .sti.cur{box-shadow:0 0 0 3px #050507,0 0 0 6px #fff}
+html:root body #store .sim img,html:root body #store .thsw{border-radius:18px}
+html:root body #store .stg.pic .sim img{border-radius:50%}
+html:root body #store .sim i{background:#050507;color:#fff;backdrop-filter:none}
+html:root body #store .sim i.stown{background:#e6fbef;color:#0a8f4a}
+html:root body #store .sti button{height:44px;padding:0 16px;border-radius:999px;background:#050507;color:#fff}
+html:root body #store .sti button:hover{filter:none;background:#1b1b24}
+html:root body #store .sti button:disabled{background:#eef0f6;color:#6b7080}
+html:root body #store .sti button:focus-visible,html:root body #store .sttabs button:focus-visible{outline:3px solid #2f5bff;outline-offset:2px}
+
+/* ===== REST OF THE SITE — collection, aura, cute pack, trade, library, friends (page theme/background untouched) ===== */
+html:root body .vault:not(#store):not(#profile),html:root body .trade{
+  --text:#0a0a0a;--muted:#5d6272;--line:#e3e5ee;--panel:#f3f4f8;--ink:#0a0a0a;
+  background:#fff;color:#0a0a0a;border:0;border-radius:30px;padding:8px 26px 26px;box-shadow:0 30px 80px -24px rgba(0,0,40,.6)}
+html:root body .vault:not(#store):not(#profile) h2,html:root body .trade h2{background:none;-webkit-background-clip:initial;background-clip:initial;color:#0a0a0a}
+html:root body .vault:not(#store):not(#profile) h3,html:root body .trade h3,html:root body .frs h3{color:#5d6272}
+html:root body .vault:not(#store):not(#profile) .tile{background:#f3f4f8;border:0;border-radius:22px;padding:8px}
+html:root body .vault:not(#store):not(#profile) .tile b{color:#0a0a0a}
+html:root body .vault:not(#store):not(#profile) .tile .ph{border-radius:16px}
+html:root body .vault:not(#store):not(#profile) .tile:not(.no):hover,html:root body .vault:not(#store):not(#profile) .tile.sel{box-shadow:0 18px 36px -16px rgba(0,0,0,.55)}
+html:root body .vault:not(#store):not(#profile) .tile.sel .ph{box-shadow:0 0 0 3px #050507}
+html:root body .trade button,html:root body .vault:not(#store):not(#profile) .fb:not(.g){background:#050507;color:#fff;border:0;border-radius:999px;font-weight:700}
+html:root body .trade button:hover,html:root body .vault:not(#store):not(#profile) .fb:not(.g):hover{background:#1b1b24;filter:none}
+html:root body .vault:not(#store):not(#profile) .fb.g{background:#fff;color:#0a0a0a;border:1.5px solid #d4d7e2;border-radius:999px;font-weight:700}
+html:root body .trade .codebox{background:#f3f4f8;color:#0a0a0a}
+html:root body .trade .codebox button{background:#050507;color:#fff}
+html:root body .trade .msg{color:#e0243a}
+html:root body .trade input,html:root body .frs input,html:root body .lib input{background:#f3f4f8;color:#0a0a0a;border:1.5px solid #d4d7e2;border-radius:999px}
+html:root body .frs .frow{border-bottom-color:#e3e5ee}
+html:root body .frs .frow.hb,html:root body .frs .frow.aurf{color:#fff}
+html:root body .frs .stats span{background:#f3f4f8;border:0;color:#0a0a0a}
+html:root body .trade button:focus-visible,html:root body .vault .fb:focus-visible{outline:3px solid #2f5bff;outline-offset:2px}
+
+/* library tiles: centered caption, rarity-colored ring, readable copy counter */
+html:root body .vault:not(#store):not(#profile) .tile .sub{display:block;text-align:center;font-size:.72rem;font-weight:500;line-height:1.3;color:#5d6272;margin-top:2px}
+html:root body .vault.lib .tile:not(.no) .ph,html:root body .vault.frs .tile:not(.no) .ph{box-shadow:0 0 0 2px var(--tc),0 10px 24px -12px var(--tc)}
+html:root body .vault:not(#store):not(#profile) .tile .pips u{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 8px;border-radius:999px;color:#fff;font-style:normal;font-weight:700;font-size:.75rem;text-decoration:none}
+html:root body .vault:not(#store):not(#profile) .tile .pips{display:flex;justify-content:center;margin-top:6px}
+
+/* ===== ANIME PACKS banner (hero): same rounded blue look, video kept ===== */
+html:root body .hero{border-radius:30px;box-shadow:0 30px 80px -24px rgba(0,0,60,.8)}
+html:root body .hero::after{border-radius:inherit;background:linear-gradient(90deg,rgba(2,2,70,.92) 0%,rgba(10,10,224,.5) 55%,rgba(10,10,224,.12) 100%),linear-gradient(0deg,rgba(2,2,50,.55),transparent 45%)}
+html:root body .hero h1 span{-webkit-text-fill-color:#b9c6ff;color:#b9c6ff}
+html:root body .hero .status{display:inline-block;padding:8px 18px;border-radius:999px;background:#fff;color:#0a0a0a;font-weight:700}
+html:root body .hero .status:empty{display:none}
+html:root body .hfoot p,html:root body .hfoot .hint{color:#dfe5ff}
+html:root body .hero .pack:focus-visible{outline:3px solid #fff;outline-offset:6px;border-radius:18px}
+
+/* ===== FRIENDS SIDEBAR — same look as the left sidebar, so it follows the chosen theme (blue / red / pink) ===== */
+@media (min-width:1300px){
+html:root body #friends#friends.vault.frs{
+  --text:#fff;--muted:#c3bde0;--line:rgba(255,255,255,.12);--panel:rgba(255,255,255,.07);--ink:#fff;
+  background:linear-gradient(200deg,#2a1150 0%,#150a2a 40%,#0b0516 100%);color:#fff;
+  border:0;border-left:1px solid rgba(255,255,255,.08);border-radius:0;box-shadow:-1px 0 0 rgba(255,255,255,.05)}
+html:root body #friends#friends h2{color:#fff;-webkit-text-fill-color:#fff;background:none}
+html:root body #friends#friends h2 span{background:rgba(255,255,255,.12);color:#fff}
+html:root body #friends#friends h3{color:#c3bde0}
+html:root body #friends#friends input{background:rgba(255,255,255,.07);color:#fff;border:1px solid rgba(255,255,255,.16)}
+html:root body #friends#friends input::placeholder{color:#a9a2cc}
+html:root body #friends#friends .frow{border-bottom-color:rgba(255,255,255,.1);color:#fff}
+html:root body #friends#friends .stats span{background:rgba(255,255,255,.08);color:#fff}
+html:root body #friends#friends .tile{background:rgba(255,255,255,.07)}
+html:root body #friends#friends .tile b{color:#fff}
+html:root body #friends#friends .tile .sub{color:#c3bde0}
+html:root body #friends#friends .fb.g{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.2)}
+html:root body #friends#friends .fb:not(.g){background:#fff;color:#0a0a0a}
+}
+
+/* ===== POINTS CHIP — moved next to the notification bell (top bar) ===== */
+@media (min-width:901px){
+html:root body .nav #ptschip{position:absolute;left:76px;top:0;order:0;margin:0;z-index:2}
+html:root body .nav .navq{margin-inline-start:130px}
+}
+
+/* ===== PACK COUNTDOWN under "Anime Packs" ===== */
+html:root body .packtimer{display:inline-flex;align-items:center;gap:10px;margin:8px 0 0;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:700;font-size:.92rem;width:fit-content;position:relative;z-index:2}
+html:root body .packtimer b{color:#ffc933;font-variant-numeric:tabular-nums;letter-spacing:.04em;font-size:1.02rem}
+html:root body .packtimer.ready{border-color:rgba(255,201,51,.45)}
+html:root body .packtimer{grid-area:timer;justify-self:start;align-self:start}
+@media (min-width:1101px){
+html:root body .hero{grid-template-areas:"h1 stage" "timer stage" "foot stage";grid-template-rows:auto auto 1fr}
+html:root body .hero #h1{align-self:end}
+html:root body .hero .hfoot{align-self:end}
+}
+@media (max-width:1100px){
+html:root body .hero{grid-template-areas:"h1" "timer" "stage" "foot"}
+html:root body .packtimer{justify-self:center;margin:0 0 6px}
+}

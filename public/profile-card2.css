@@ -1,0 +1,58 @@
+/* ===== PROFILE CARD v2 — compact card: inner banner, avatar overlap, @handle, stats with dividers, outlined action buttons ===== */
+html:root body #profile#profile.pop,html:root body #fprof#fprof.pop{
+  display:flex!important;flex-direction:column;width:min(400px,94vw);padding:14px;border-radius:28px;background:#fff;color:#0a0a0a;overflow-x:hidden}
+html:root body #profile#profile.pop:not(:has(.pban.aurf)),html:root body #fprof#fprof.pop:not(:has(.pban.aurf)){border:1px solid #e4e1f7}
+/* banner sits inside the card, rounded */
+html:root body #profile#profile.pop .pban,html:root body #fprof#fprof.pop .pban{height:150px;margin:0;border-radius:20px;overflow:hidden;flex:none}
+html:root body #profile#profile.pop .pban::after,html:root body #fprof#fprof.pop .pban::after{background:none}
+/* round buttons under the banner, on the right (like link / more) */
+html:root body #profile#profile.pop .ppctl,html:root body #fprof#fprof.pop .ppctl{position:absolute;top:174px;inset-inline-end:20px;z-index:5;display:flex;gap:8px;margin:0}
+html:root body #profile#profile.pop .pclose,html:root body #fprof#fprof.pop .pclose,html:root body #profile#profile.pop .gearbtn{width:44px;height:44px;border-radius:50%;background:#f3f2f8;border:0;color:#7d7897;backdrop-filter:none;display:grid;place-items:center;cursor:pointer;padding:0}
+html:root body #profile#profile.pop .pclose:hover,html:root body #fprof#fprof.pop .pclose:hover,html:root body #profile#profile.pop .gearbtn:hover{background:#e8e6f4}
+html:root body #profile#profile.pop .gearbtn svg,html:root body #profile#profile.pop .pclose svg,html:root body #fprof#fprof.pop .pclose svg{width:20px;height:20px}
+/* avatar + identity */
+html:root body #profile#profile.pop .ph0,html:root body #fprof#fprof.pop .ph0{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:0 6px;margin:-38px 0 0}
+html:root body #profile#profile.pop .ph0>img:not(.vchk):not(.cflag):not(.gbadge),html:root body #fprof#fprof.pop .ph0>img:not(.vchk):not(.cflag):not(.gbadge){width:76px;height:76px;flex:none;border-radius:50%;object-fit:cover;background:#fff;box-shadow:0 0 0 5px #fff,0 6px 18px -8px rgba(40,30,90,.45);animation:none}
+html:root body #profile#profile.pop .pid,html:root body #fprof#fprof.pop .pid{width:100%;min-width:0}
+html:root body #profile#profile.pop .ph0 b,html:root body #fprof#fprof.pop .ph0 b{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:1.3rem;font-weight:600;letter-spacing:0;line-height:1.2;font-family:inherit;text-shadow:none;color:#0a0a0a}
+html:root body #profile#profile.pop .hnd,html:root body #fprof#fprof.pop .hnd{display:block;margin-top:3px;font-size:.95rem;font-weight:400;color:#a39bbd;overflow-wrap:anywhere}
+html:root body #profile#profile.pop .ph0 small.rl,html:root body #fprof#fprof.pop .ph0 small.rl{display:inline-block;margin-top:8px;padding:3px 12px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:none;background:#fff5d6;color:#9a6b00}
+html:root body #profile#profile.pop .ph0 small.rl.r-owner,html:root body #fprof#fprof.pop .ph0 small.rl.r-owner{background:#ffe9ec;color:#e0243a}
+html:root body #profile#profile.pop .ph0 small.rl:empty,html:root body #fprof#fprof.pop .ph0 small.rl:empty{display:none}
+/* bio (status) + country */
+html:root body #profile#profile.pop .pbio{padding:0 6px;margin-top:8px}
+html:root body #profile#profile.pop .pbio:empty{display:none}
+html:root body #profile#profile.pop .pst>.pstt{max-width:100%;color:#3a3750;font-size:.95rem;white-space:normal}
+html:root body #profile#profile.pop .pstb{border:1px solid #dcd9ec;background:#fff;color:#6d6888}
+html:root body #profile#profile.pop .pcty{margin-top:8px;max-width:100%;padding:7px 10px;border-radius:10px;border:1px solid #dcd9ec;background:#f3f2f8;color:#0a0a0a}
+html:root body #fprof#fprof.pop .fst{margin:10px 6px 0;padding:0;background:none;border:0;color:#3a3750;font-size:.95rem;font-style:normal;font-family:inherit}
+/* stats: label on top, value under, thin dividers */
+html:root body #profile#profile.pop .stats:not(.chp){display:grid!important;grid-template-columns:repeat(3,1fr);gap:0;margin:18px 0 0;padding:0 6px}
+html:root body #profile#profile.pop .stats:not(.chp) span{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 6px;border:0;border-radius:0;background:none;font-weight:400}
+html:root body #profile#profile.pop .stats:not(.chp) span+span{border-inline-start:1px solid #e3e1ef}
+html:root body #profile#profile.pop .stats:not(.chp) i{margin:0;font-style:normal;font-size:.8rem;color:#a39bbd;font-weight:400;text-align:center}
+html:root body #profile#profile.pop .stats:not(.chp) strong{font-size:1.1rem;font-weight:600;color:#0a0a0a}
+/* rarity chips + trades as tag pills */
+html:root body #profile#profile.pop .stats.chp{display:flex!important;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0 6px}
+html:root body #profile#profile.pop .stats.chp:empty{display:none!important}
+html:root body #profile#profile.pop .stats.chp span{padding:4px 12px;border-width:1.5px;border-radius:999px;background:#faf9ff;color:#0a0a0a;font-size:.8rem;font-weight:600}
+html:root body #profile#profile.pop .stats.chp span i{margin-inline-start:6px;color:#6d6888;font-style:normal}
+/* action buttons */
+html:root body #profile#profile.pop .pact,html:root body #fprof#fprof.pop .fact{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0 0;padding:0}
+html:root body #fprof#fprof.pop .fact{grid-template-columns:1fr 1fr}
+html:root body #profile#profile.pop .pact .fb,html:root body #fprof#fprof.pop .fact .fb{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;padding:0 8px;min-width:0;border-radius:14px;border:1px solid #cfcde0;background:#fff;color:#1a1830;font-weight:500;font-size:.82rem;font-family:inherit;box-shadow:none!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+html:root body #profile#profile.pop .pact .fb:hover,html:root body #fprof#fprof.pop .fact .fb:hover{background:#f6f5fb}
+html:root body #profile#profile.pop .pact .fb.main,html:root body #fprof#fprof.pop .fact .fb:not(.g){background:#050507;color:#fff;border-color:#050507}
+html:root body #profile#profile.pop .pact .fb.main:hover,html:root body #fprof#fprof.pop .fact .fb:not(.g):hover{background:#1b1b24}
+html:root body #profile#profile.pop .pact .fb svg,html:root body #fprof#fprof.pop .fact .fb svg{width:16px;height:16px;flex:none}
+/* settings panel moves to the bottom of the card */
+html:root body #profile#profile.pop .pset{order:10;margin:14px 0 0}
+html:root body #profile#profile.pop .bgp{order:11;margin:12px 0 0}
+html:root body #profile#profile.pop .bgp:empty{display:none}
+html:root body #profile#profile.pop>h2{display:none!important}
+@media (max-width:380px){
+  html:root body #profile#profile.pop .pban,html:root body #fprof#fprof.pop .pban{height:130px}
+  html:root body #profile#profile.pop .ppctl,html:root body #fprof#fprof.pop .ppctl{top:154px}
+}
+html:root body #profile#profile.pop .pact,html:root body #fprof#fprof.pop .fact{padding:0 6px}
+html:root body #profile#profile.pop .pact .fb,html:root body #fprof#fprof.pop .fact .fb{filter:none!important;text-shadow:none}

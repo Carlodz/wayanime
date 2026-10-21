@@ -1279,7 +1279,8 @@ html:root body .jump a#j9.clk::before{animation-name:icSpin}
 @keyframes icBeat{0%,100%{transform:scale(1)}20%{transform:scale(1.5)}40%{transform:scale(.9)}60%{transform:scale(1.35)}80%{transform:scale(1)}}
 @keyframes icWiggle{0%,100%{transform:translateX(0) rotate(0)}20%{transform:translateX(-5px) rotate(-14deg)}40%{transform:translateX(5px) rotate(14deg)}60%{transform:translateX(-3px) rotate(-8deg)}80%{transform:translateX(3px) rotate(6deg)}}
 @keyframes icSpin{to{transform:rotate(360deg) scale(1)}}
-</style></head>
+
+</style><link rel="stylesheet" href="/profile-card.css"><link rel="stylesheet" href="/profile-card2.css?v=2"></head>
 <body>
 <div id="gate" aria-live="polite"><div class="gl"><i class="gdot" style="width:90px;height:90px;left:8%;top:62%"></i><i class="gdot" style="width:46px;height:46px;left:70%;top:18%;animation-delay:-3s"></i><i class="gdot" style="width:130px;height:130px;left:55%;top:78%;animation-delay:-5s;opacity:.6"></i><div class="gtop"><span class="gbrand"><span id="gmark"><svg class="wlogo on-dark" viewBox="230 270 1450 780" aria-hidden="true" focusable="false"><circle class="wc" cx="461" cy="517" r="205"/><line class="wp p1" x1="697" y1="900" x2="1068" y2="422"/><line class="wp p2" x1="1164" y1="900" x2="1535" y2="422"/></svg></span><span id="gbrand"></span></span><span><span id="gq"></span> <a id="gsw"></a></span></div>
 <div class="gmain" id="gmain"><h2 id="gh"></h2>
@@ -1293,7 +1294,7 @@ html:root body .jump a#j9.clk::before{animation-name:icSpin}
 <div class="wl"><svg class="wlogo " viewBox="230 270 1450 780" aria-hidden="true" focusable="false"><circle class="wc" cx="461" cy="517" r="205"/><line class="wp p1" x1="697" y1="900" x2="1068" y2="422"/><line class="wp p2" x1="1164" y1="900" x2="1535" y2="422"/></svg><span class="wbr"><span class="wtxt" id="wtxt" aria-label="WAYANIME">WAYANIME</span><span class="wsub">CARDS PACK</span></span></div>
 <nav class="nav"><button class="langb" id="lang"></button><label class="navq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="nq" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false"></label><button class="langb" id="auth"></button></nav>
 <nav class="nav jump"><a id="j1" href="#top"></a><a id="j2" href="#coll"></a><a id="j3" href="#trade"></a><a id="j4" href="#vault"></a><a id="j5" href="#cutepack"></a><a id="j6" href="#library" style="display:none"></a><a id="j7" href="#profile" style="display:none"></a><a id="j8" href="#friends" style="display:none"></a><a id="j10" href="#store" style="display:none"><span>Store</span></a><a id="j9" href="/admin.html" target="_blank" rel="noopener" style="display:none">LOG</a></nav>
-<h1 id="h1"></h1>
+<h1 id="h1"></h1><div id="packtimer" class="packtimer" aria-live="off"><span class="pt-l"></span><b class="pt-t">--:--:--</b></div>
 <section class="stage" aria-label="Daily pack">
   <button class="pack" id="pack" aria-label="Open today's pack"><svg viewBox="0 0 190 310" aria-hidden="true" focusable="false">
 <defs>
@@ -1830,6 +1831,7 @@ var DEFAV="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' vie
 function navProfile(a){var s=bnImg(USER.banner);
   a.classList.add("navprof");if(s)a.style.setProperty("--bn","url('"+s+"')");else a.style.removeProperty("--bn");
   a.innerHTML='<img alt="" src="'+esc(avSrc(USER))+'" onerror="this.onerror=null;this.src=DEFAV"><span>'+esc(USER.username)+stz(USER)+ust(USER)+'</span>'}
+function PACT(){var I=function(d){return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>'};return'<div class="pact"><button class="fb main" type="button" data-pf="pick">'+I('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>')+PL("chg")+'</button><button class="fb" type="button" data-pf="bpick">'+I('<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 9"/>')+PL("bn")+'</button><button class="fb" type="button" data-bgo="1">'+I('<path d="M12 3a9 9 0 1 0 0 18c1.2 0 2-.8 2-1.8 0-1.2-1-1.6-1-2.7 0-1 .8-1.7 1.9-1.7H17a4 4 0 0 0 4-4C21 6.5 17 3 12 3z"/>')+(LANG==="en"?"Theme":"\u0627\u0644\u062e\u0644\u0641\u064a\u0629")+'</button></div>'}
 function renderProfile(){
   var el=$("profile"),j6=$("j6");if(!el)return;
   if(!USER){el.style.display="none";["j6","j7","j8"].forEach(function(i){var x=$(i);if(x)x.style.display="none"});var lb0=$("library");if(lb0)lb0.style.display="none";return}
@@ -1846,7 +1848,7 @@ function renderProfile(){
     return'<div class="tile" data-pa="'+x.a+'" data-pi="'+x.i+'" style="border-color:'+x.col+';--tc:'+x.col+'"><div class="ph"><span class="bd" style="color:'+x.col+'">'+"\u2605".repeat(x.st)+'</span><img alt="'+esc(x.nm)+'" src="'+x.img+'"></div><b>'+esc(x.nm)+'</b><span class="sub">'+esc(x.an)+' \u00b7 '+esc(x.rn)+'</span>'+(x.n>1?'<div class="pips"><u class="on" style="background:'+x.col+'">'+x.n+'</u></div>':"")+'</div>'}).join("");
   var av=avSrc(USER),bsrc=bnImg(USER.banner),ban='<div class="pban'+(USER.aura?' aurf':'')+'">'+(bsrc?'<img alt="" src="'+esc(bsrc)+'">':"")+'<button class="fb g" data-pf="bpick">'+PL("bn")+'</button></div>';
   el.style.display="";if(j6){j6.style.display="";j6.textContent=PL("n6")}var j7=$("j7"),j8=$("j8");if(j7){j7.style.display="";navProfile(j7)}if(j8)j8.style.display="none";
-  el.innerHTML='<h2>'+(LANG==="en"?"Profile":"\u0627\u0644\u0645\u0644\u0641 \u0627\u0644\u0634\u062e\u0635\u064a")+'</h2>'+ban+'<div class="ph0"><img alt="" src="'+esc(av)+'" onerror="this.onerror=null;this.src=DEFAV"><div><b>'+esc(USER.username)+stz0(USER)+cflagBtn()+'</b><small class="rl'+(USER.role?' r-'+USER.role:'')+'">'+(USER.role==="owner"?"Owner":USER.role==="mod"?"Admin":"")+'</small>'+stEditor()+(CTYE?ctySel():"")+'</div><button class="fb g" data-pf="pick" style="margin-inline-start:auto">'+PL("chg")+'</button></div>'+pickerHtml()+'<div class="stats"><span>'+tot+'<i>'+PL("tot")+'</i></span><span>'+uni+'<i>'+PL("uni")+'</i></span><span>'+Math.round(uni*100/all)+'%<i>'+PL("pct")+'</i></span>'+chips+'<span>'+(USER.trades||0)+'/100<i>'+(LANG==="en"?"trades":"\u062a\u0628\u062f\u064a\u0644")+'</i></span></div>';var lb=$("library");if(lb){lb.style.display="";lb.innerHTML='<h2>'+PL("h")+' <span>'+uni+' / '+all+'</span></h2>'+(items.length?'<div class="grid">'+t+'</div>':'<p class="empty">'+PL("empty")+'</p>')}}
+  el.innerHTML='<h2>'+(LANG==="en"?"Profile":"\u0627\u0644\u0645\u0644\u0641 \u0627\u0644\u0634\u062e\u0635\u064a")+'</h2>'+ban+'<div class="ph0"><img alt="" src="'+esc(av)+'" onerror="this.onerror=null;this.src=DEFAV"><div class="pid"><b>'+esc(USER.username)+stz0(USER)+cflagBtn()+'</b><span class="hnd">@'+esc(USER.username)+'</span><small class="rl'+(USER.role?' r-'+USER.role:'')+'">'+(USER.role==="owner"?"Owner":USER.role==="mod"?"Admin":"")+'</small></div></div><div class="pbio">'+stEditor()+(CTYE?ctySel():"")+'</div>'+pickerHtml()+'<div class="stats"><span><i>'+PL("tot")+'</i><strong>'+tot+'</strong></span><span><i>'+PL("uni")+'</i><strong>'+uni+'</strong></span><span><i>'+PL("pct")+'</i><strong>'+Math.round(uni*100/all)+'%</strong></span></div><div class="stats chp">'+chips+'<span>'+(LANG==="en"?"trades":"\u062a\u0628\u062f\u064a\u0644")+'<i>'+(USER.trades||0)+'/100</i></span></div>'+PACT();var lb=$("library");if(lb){lb.style.display="";lb.innerHTML='<h2>'+PL("h")+' <span>'+uni+' / '+all+'</span></h2>'+(items.length?'<div class="grid">'+t+'</div>':'<p class="empty">'+PL("empty")+'</p>')}}
 var _pc=function(e){var pb=e.target.closest("[data-pf]");if(pb){pfAct(pb);return}var t=e.target.closest(".tile[data-pa]");if(t)cvOpen(t.getAttribute("data-pa"),+t.getAttribute("data-pi"))};$("profile").addEventListener("click",_pc);$("library").addEventListener("click",_pc);
 function navAvatar(){var b=$("auth");if(!b||!USER)return;var src=avSrc(USER),ex=b.querySelector("img.av");
   if(ex){if(ex.getAttribute("src")!==src)ex.src=src;return}
@@ -2388,7 +2390,7 @@ if(anchor&&anchor.parentNode){
     var b=bnImg(u.banner),bg=bgCss(u);if(bg)box.style.setProperty("--pbg",bg);else box.style.removeProperty("--pbg");
     box.innerHTML='<div class="ppctl"><b>'+(LANG==="en"?"Profile":"\u0627\u0644\u0645\u0644\u0641 \u0627\u0644\u0634\u062e\u0635\u064a")+'</b><button class="pclose" data-fc="1" type="button" aria-label="'+esc(FL("close"))+'">'+XSVG+'</button></div>'
       +'<div class="pban'+(u.aura?' aurf':'')+'">'+(b?'<img alt="" src="'+esc(b)+'">':'')+'</div>'
-      +'<div class="ph0"><img alt="" src="'+esc(avSrc(u))+'" onerror="this.onerror=null;this.src=DEFAV"><div><b>'+esc(u.username)+stz(u)+'</b><small class="rl'+(u.role?' r-'+u.role:'')+'">'+(u.role==="owner"?"Owner":u.role==="mod"?"Admin":"")+'</small></div></div>'
+      +'<div class="ph0"><img alt="" src="'+esc(avSrc(u))+'" onerror="this.onerror=null;this.src=DEFAV"><div class="pid"><b>'+esc(u.username)+stz(u)+'</b><span class="hnd">@'+esc(u.username)+'</span><small class="rl'+(u.role?' r-'+u.role:'')+'">'+(u.role==="owner"?"Owner":u.role==="mod"?"Admin":"")+'</small></div></div>'
       +(u.status?'<div class="fst">'+esc(u.status)+'</div>':'')
       +'<div class="fact">'+btn("view",u.id,FL("coll"),"g")+btn("snd",u.id,FL("snd"),"")+btn("open",u.id,FL("tr"),"g")+btn("rm",u.id,FL("rm"),"g",1)+'</div>';
   }
@@ -2411,5 +2413,26 @@ if(anchor&&anchor.parentNode){
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest(".jump a");if(!a)return;
 a.classList.remove("clk");void a.offsetWidth;a.classList.add("clk");
 clearTimeout(a._t);a._t=setTimeout(function(){a.classList.remove("clk")},900)},true);
+</script><script id="packtimer-js">
+/* Countdown under the title: time left until the next daily pack (day changes at midnight, Algeria time) */
+(function(){
+  var box=document.getElementById("packtimer");if(!box)return;
+  var L=box.querySelector(".pt-l"),T=box.querySelector(".pt-t"),dtf=null;
+  try{dtf=new Intl.DateTimeFormat("en-GB",{timeZone:"Africa/Algiers",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"})}catch(e){}
+  function left(){
+    var h,m,s;
+    if(dtf){var p={};dtf.formatToParts(new Date()).forEach(function(x){p[x.type]=+x.value});h=p.hour;m=p.minute;s=p.second}
+    else{var d=new Date();h=d.getUTCHours()+1;if(h>23)h-=24;m=d.getUTCMinutes();s=d.getUTCSeconds()}
+    return 86400-(h*3600+m*60+s);
+  }
+  function z(n){return(n<10?"0":"")+n}
+  function tick(){
+    var r=left(),pk=document.getElementById("pack"),ready=pk&&!pk.disabled;
+    L.textContent=ready?"Pack ready \u00b7 time left today":"Next pack in";
+    T.textContent=z(Math.floor(r/3600))+":"+z(Math.floor(r%3600/60))+":"+z(r%60);
+    box.classList.toggle("ready",!!ready);
+  }
+  tick();setInterval(tick,1000);
+})();
 </script></body>
 </html>

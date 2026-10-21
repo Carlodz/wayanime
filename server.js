@@ -233,6 +233,7 @@ app.post('/api/gift', (req, res) => {
   const id = sessionId(req);
   if (!id) return res.status(401).json({});
   const { a, i, r } = req.body || {};
+  if (a === 'aura') return res.status(400).json({ error: 'aura cards cannot be gifted' });
   if (typeof a !== 'string' || !/^[\w-]{1,20}$/.test(a) || !Number.isInteger(i) || i < 0 || i > 99 || !RAR.includes(r) || (a === 'leg') !== (r === 'legendary')) return res.status(400).json({ error: 'bad request' });
   if (Object.values(gifts).filter((g) => g.from === id).length >= 20) return res.status(400).json({ error: 'too many pending codes' });
   const st = stateOf(db[id]);
@@ -427,13 +428,17 @@ function hasAura(u) {
   const g = (((u.state || {}).a || {}).aura || {}).got || {};
   return Object.values(g).some((o) => o && Object.values(o).some((n) => n > 0));
 }
+function auraList(u) {
+  const g = (((u.state || {}).a || {}).aura || {}).got || {};
+  return Object.keys(g).filter((i) => g[i] && Object.values(g[i]).some((n) => n > 0)).map(Number).filter((i) => i >= 0 && i < 6);
+}
 function hasCute(u) {
   const g = (((u.state || {}).a || {}).cute || {}).got || {};
   return Object.values(g).some((o) => o && Object.values(o).some((n) => n > 0));
 }
-function pub(id) { const u = db[id]; return u && u.user ? { id, username: u.user.username, avatar: u.user.avatar, pic: u.pic || null, banner: u.banner || null, bg: u.bg || null, country: u.country || null, status: u.status || '', role: roleOf(id), leg: u.gender === 'm' && hasLeg(u), cute: u.gender === 'f' && hasCute(u), aura: hasAura(u), ver: (u.trades || 0) >= VERIFY_AT || isAdmin(id), gold: isAdmin(id) } : null; }
+function pub(id) { const u = db[id]; return u && u.user ? { id, username: u.user.username, avatar: u.user.avatar, pic: u.pic || null, banner: u.banner || null, bg: u.bg || null, country: u.country || null, status: u.status || '', role: roleOf(id), leg: u.gender === 'm' && hasLeg(u), cute: u.gender === 'f' && hasCute(u), aura: hasAura(u), auras: auraList(u), ver: (u.trades || 0) >= VERIFY_AT || isAdmin(id), gold: isAdmin(id) } : null; }
 function validCard(c) {
-  return c && typeof c.a === 'string' && /^[\w-]{1,20}$/.test(c.a) && Number.isInteger(c.i) && c.i >= 0 && c.i <= 99 && RAR.includes(c.r) && (c.a === 'leg') === (c.r === 'legendary');
+  return c && c.a !== 'aura' && typeof c.a === 'string' && /^[\w-]{1,20}$/.test(c.a) && Number.isInteger(c.i) && c.i >= 0 && c.i <= 99 && RAR.includes(c.r) && (c.a === 'leg') === (c.r === 'legendary');
 }
 function owns(st, c) { return ((((st.a[c.a] || {}).got || {})[c.i] || {})[c.r] || 0) >= 1; }
 function takeCard(st, c) { st.a[c.a].got[c.i][c.r] -= 1; st.rev = (st.rev || 0) + 1; }
@@ -525,7 +530,7 @@ app.get('/api/friend/:id/cards', (req, res) => {
     for (const [i, G] of Object.entries((A && A.got) || {}))
       for (const [r, n] of Object.entries(G || {}))
         if (n > 0 && RAR.includes(r)) cards.push({ a, i: +i, r, n });
-  res.json({ cards });
+  res.json({ cards, auras: auraList(db[t]) }); // Aura cards are visible to friends but can never be traded
 });
 
 app.post('/api/offer', (req, res) => {
@@ -641,6 +646,10 @@ app.post('/api/profile/bg', (req, res) => {
   } else if (typeof b.p === 'string') {
     if (!BANNER_PRESETS.includes(b.p)) return res.status(400).json({ error: 'bad background' });
     db[id].bg = { p: b.p };
+  } else if (b.au !== undefined && b.au !== null && b.au !== '') {
+    const k = Number(b.au);
+    if (!Number.isInteger(k) || !auraList(db[id]).includes(k)) return res.status(400).json({ error: 'you do not own that aura card' });
+    db[id].bg = { au: k };
   } else delete db[id].bg;
   persist(); res.json({ ok: true, bg: db[id].bg || null });
 });

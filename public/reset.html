@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reset password — WAYANIME</title>
+<style>
+  :root{--bg:#120a22;--card:#1c1030;--ink:#fbf4ff;--muted:#b7a3d6;--line:#3a2461;--accent:#b04bff;--bad:#ff6b7a;--ok:#5ad18b}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--ink);font-family:"Space Grotesk","Poppins",system-ui,sans-serif;padding:16px}
+  .card{width:100%;max-width:380px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 24px}
+  h1{font-size:1.2rem;margin:0 0 6px}
+  p.sub{color:var(--muted);font-size:.9rem;margin:0 0 20px}
+  label{display:block;font-size:.8rem;color:var(--muted);margin:14px 0 6px}
+  input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#150a2a;color:var(--ink);font-size:.95rem}
+  button{width:100%;margin-top:20px;padding:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;font-size:.95rem;cursor:pointer}
+  button:disabled{opacity:.6;cursor:default}
+  .res{margin-top:14px;font-size:.85rem}
+  .res.ok{color:var(--ok)}
+  .res.bad{color:var(--bad)}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <h1>Reset your password</h1>
+  <p class="sub" id="sub">Checking link…</p>
+  <div id="form" style="display:none">
+    <label>New password</label>
+    <input type="password" id="p1" minlength="6" maxlength="72" autocomplete="new-password">
+    <label>Confirm new password</label>
+    <input type="password" id="p2" minlength="6" maxlength="72" autocomplete="new-password">
+    <button id="go">Set new password</button>
+    <div class="res" id="res"></div>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const token = new URLSearchParams(location.search).get('token') || '';
+async function api(m, u, b){
+  const r = await fetch(u, { method: m, credentials: 'same-origin', headers: b ? {'Content-Type':'application/json'} : undefined, body: b ? JSON.stringify(b) : undefined });
+  let j = null; try { j = await r.json(); } catch(e) {}
+  return { ok: r.ok, j: j || {} };
+}
+(async () => {
+  if (!token) { $('sub').textContent = 'This link is missing its token.'; return; }
+  const r = await api('GET', '/api/auth/reset-check?token=' + encodeURIComponent(token));
+  if (!r.ok) { $('sub').textContent = 'This link is invalid or has expired. Ask an admin to send a new one.'; return; }
+  $('sub').textContent = 'Choose a new password for ' + r.j.username + '. Only you will know it.';
+  $('form').style.display = 'block';
+})();
+$('go').onclick = async () => {
+  const p1 = $('p1').value, p2 = $('p2').value;
+  if (p1.length < 6) { $('res').className = 'res bad'; $('res').textContent = 'Password must be at least 6 characters.'; return; }
+  if (p1 !== p2) { $('res').className = 'res bad'; $('res').textContent = 'Passwords do not match.'; return; }
+  $('go').disabled = true;
+  const r = await api('POST', '/api/auth/reset-confirm', { token, password: p1, confirm: p2 });
+  $('go').disabled = false;
+  if (r.ok) { $('res').className = 'res ok'; $('res').textContent = 'Password changed. You can log in now.'; $('form').querySelectorAll('input,button').forEach(e=>e.disabled=true); setTimeout(()=>location.href='/', 1800); }
+  else { $('res').className = 'res bad'; $('res').textContent = r.j.error || 'Something went wrong.'; }
+};
+</script>
+</body>
+</html>

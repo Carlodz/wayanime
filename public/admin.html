@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Admin — WAYANIME</title>
+<style>
+:root{--bg:#07030f;--panel:#150a2a;--panel2:#1c1030;--tx:#fbf4ff;--mut:#b7a3d6;--line:#3a2461;--ac:#b04bff;--ac2:#ff7ad9;--ok:#1f9d55;--bad:#d64545}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Space Grotesk",system-ui,sans-serif;padding:20px 16px 60px;max-width:980px;margin-inline:auto}
+h1{margin:0 0 14px;font-size:1.5rem}
+h2{margin:0 0 12px;font-size:1.05rem}
+h3{margin:18px 0 8px;font-size:.92rem;color:var(--mut)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px}
+.tabs button{background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font:inherit;font-size:.85rem;cursor:pointer}
+.tabs button.on{background:linear-gradient(135deg,var(--ac2),var(--ac));border-color:transparent;font-weight:700}
+.sec{display:none;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.sec.on{display:block}
+label{display:block;font-size:.78rem;color:var(--mut);margin:12px 0 5px}
+input[type=text],input[type=number],textarea,select{width:100%;background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:.9rem}
+textarea{min-height:92px;resize:vertical}
+input[type=file]{width:100%;font-size:.82rem;color:var(--mut)}
+input[type=color]{width:54px;height:36px;border:1px solid var(--line);background:var(--panel2);border-radius:8px;padding:2px}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row>*{flex:1 1 200px}
+.btn{background:linear-gradient(135deg,var(--ac2),var(--ac));color:#fff;border:0;border-radius:10px;padding:11px 20px;font:inherit;font-weight:700;cursor:pointer;margin-top:16px}
+.btn.g{background:var(--panel2);border:1px solid var(--line);font-weight:600}
+.btn.s{padding:6px 12px;margin:0;font-size:.78rem}
+.btn:disabled{opacity:.5;cursor:default}
+.note{font-size:.8rem;color:var(--mut);margin:8px 0 0}
+.res{margin-top:12px;font-size:.85rem;min-height:1.2em}.res.ok{color:#5be39a}.res.bad{color:#ff8a8a}
+.aupick{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.aupick label{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;margin:0;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--tx);cursor:pointer;font-size:.85rem}
+.aupick input{position:absolute;opacity:0;pointer-events:none}
+.aupick img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px}
+.aupick label.on{border-color:#ff2d3d;box-shadow:0 0 0 1px #ff2d3d,0 0 18px -4px rgba(255,45,61,.7)}
+.prev{margin-top:8px;max-height:200px;max-width:100%;border-radius:10px;display:none;border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:10px}
+.cd{background:var(--panel2);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:.74rem}
+.cd img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+.cd div{padding:6px 8px}
+.cd b{display:block}
+.ulist{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:6px}
+.ulist label{display:flex;gap:8px;align-items:center;margin:0;padding:6px 8px;font-size:.86rem;color:var(--tx);cursor:pointer}
+table{width:100%;border-collapse:collapse;background:var(--panel2);border-radius:12px;overflow:hidden}
+th,td{padding:9px 10px;text-align:left;font-size:.82rem;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-size:.7rem}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.7rem;font-weight:700;background:#5865F2;margin-inline-start:6px}
+.muted{color:var(--mut)}
+.ev{background:var(--panel2);border:1px solid var(--line);border-radius:12px;max-height:360px;overflow:auto}
+.ev div{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-bottom:1px solid var(--line);font-size:.82rem}
+.ev time{color:var(--mut);font-size:.72rem;white-space:nowrap}
+.tag{font-size:.66rem;font-weight:700;padding:2px 8px;border-radius:999px;background:#2b3c68;white-space:nowrap}
+.li{display:flex;gap:12px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px;font-size:.85rem}
+.li img{width:48px;height:48px;object-fit:contain;border-radius:8px;flex:none;background:#0b0516}
+.li .t{flex:1;min-width:0}
+.sw{display:flex;gap:8px;align-items:center}
+</style>
+</head>
+<body>
+<h1>Admin — WAYANIME</h1>
+<div class="tabs" id="tabs">
+  <button data-t="ov" class="on">Overview</button>
+  <button data-t="nt">Notify users</button>
+  <button data-t="pk">Packs &amp; cards</button>
+  <button data-t="st">Store</button>
+  <button data-t="pb">Announcements</button>
+  <button data-t="dm">Message a user</button>
+  <button data-t="au">Aura card</button>
+  <button data-t="rp" id="tab-rp" style="display:none">Reset password</button>
+  <button data-t="sf" id="tab-sf" style="display:none">Staff</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="sec on" id="s-ov">
+  <h2>Live activity</h2>
+  <div class="ev" id="ev"><div class="muted">Loading…</div></div>
+  <h3>Accounts</h3>
+  <div id="msg" class="muted">Loading…</div>
+  <table id="tbl" style="display:none"><thead><tr><th>User</th><th>Trades</th><th>Cards</th><th>Last login</th></tr></thead><tbody id="rows"></tbody></table>
+</div>
+
+<!-- NOTIFY -->
+<div class="sec" id="s-nt">
+  <h2>Send a notification</h2>
+  <p class="note">It shows up in the bell icon on the site.</p>
+  <label>Send to</label>
+  <select id="nt-to"><option value="all">All users</option><option value="sel">Selected users</option></select>
+  <div id="nt-pick" style="display:none">
+    <label>Search</label><input type="text" id="nt-q" placeholder="username">
+    <div class="ulist" id="nt-list"></div>
+    <p class="note" id="nt-cnt">0 selected</p>
+  </div>
+  <label>Title</label><input type="text" id="nt-title" maxlength="80" dir="auto">
+  <label>Text</label><textarea id="nt-text" maxlength="500" dir="auto"></textarea>
+  <button class="btn" id="nt-go">Send notification</button>
+  <div class="res" id="nt-res"></div>
+</div>
+
+<!-- STORE -->
+<div class="sec" id="s-st">
+  <h3>Send points to a user</h3>
+  <label>Username</label><input type="text" id="pt-user" list="dm-names" placeholder="@username">
+  <label>Points (use a negative number to remove)</label><input type="number" id="pt-n" step="1" value="100">
+  <button class="btn" id="pt-go">Send points</button>
+  <div class="res" id="pt-res"></div>
+  <hr style="border:0;border-top:1px solid var(--line);margin:26px 0">
+  <h2>Add to the Store</h2>
+  <label>Type</label>
+  <select id="st-type"><option value="pic">Profile photo</option><option value="banner">Banner</option></select>
+  <label>Image</label>
+  <input type="file" id="st-img" accept="image/*"><img class="prev" id="st-prev" alt="">
+  <label>Price (points)</label>
+  <input type="number" id="st-price" min="0" step="1" value="50">
+  <button class="btn" id="st-go">Add to Store</button>
+  <div class="res" id="st-res"></div>
+  <h3>Store items</h3>
+  <div id="st-list" class="muted">None yet.</div>
+</div>
+<!-- PACKS & CARDS -->
+<div class="sec" id="s-pk">
+  <h2>New pack</h2>
+  <div class="row">
+    <div><label>Name (Arabic)</label><input type="text" id="pk-ar" maxlength="40" dir="rtl"></div>
+    <div><label>Name (English)</label><input type="text" id="pk-en" maxlength="40"></div>
+  </div>
+  <label>Anime logo (png with transparent background works best)</label>
+  <input type="file" id="pk-logo" accept="image/*"><img class="prev" id="pk-prev" alt="">
+  <label>Pack colors</label>
+  <div class="sw"><input type="color" id="pk-c1" value="#2a0f4d"><input type="color" id="pk-c2" value="#7c3aed"><input type="color" id="pk-c3" value="#ff7ad9"></div>
+  <button class="btn" id="pk-go">Create pack</button>
+  <div class="res" id="pk-res"></div>
+  <h3>Packs you created</h3>
+  <div id="pk-list" class="muted">None yet.</div>
+
+  <hr style="border:0;border-top:1px solid var(--line);margin:26px 0">
+  <h2>Add a card</h2>
+  <label>Pack</label>
+  <select id="cd-pack"></select>
+  <p class="note" id="cd-note"></p>
+  <label>Character image</label>
+  <input type="file" id="cd-img" accept="image/*"><img class="prev" id="cd-prev" alt="">
+  <div class="row">
+    <div><label>Character name (Arabic)</label><input type="text" id="cd-ar" maxlength="40" dir="rtl"></div>
+    <div><label>Character name (English)</label><input type="text" id="cd-en" maxlength="40"></div>
+  </div>
+  <button class="btn" id="cd-go">Add card</button>
+  <div class="res" id="cd-res"></div>
+  <h3>Cards added from here (this pack)</h3>
+  <div class="grid" id="cd-grid"></div>
+</div>
+
+<!-- ANNOUNCEMENTS -->
+<div class="sec" id="s-pb">
+  <h2>New announcement</h2>
+  <p class="note">A banner shown at the top of the site for everyone, e.g. “A new pack is coming”.</p>
+  <label>Title</label><input type="text" id="pb-title" maxlength="80" dir="auto">
+  <label>Text (optional)</label><textarea id="pb-text" maxlength="300" dir="auto"></textarea>
+  <label>Image or pack logo (optional)</label>
+  <input type="file" id="pb-img" accept="image/*"><img class="prev" id="pb-prev" alt="">
+  <label>Show for how many days (0 = until you delete it)</label>
+  <input type="number" id="pb-days" min="0" max="365" value="7">
+  <button class="btn" id="pb-go">Publish</button>
+  <div class="res" id="pb-res"></div>
+  <h3>Current announcements</h3>
+  <div id="pb-list" class="muted">None.</div>
+</div>
+
+<!-- DIRECT MESSAGE -->
+<div class="sec" id="s-dm">
+  <h2>Message one user</h2>
+  <label>Username</label><input type="text" id="dm-user" list="dm-names" placeholder="@username">
+  <datalist id="dm-names"></datalist>
+  <label>Title (optional)</label><input type="text" id="dm-title" maxlength="80" dir="auto" placeholder="Message from admin">
+  <label>Message</label><textarea id="dm-text" maxlength="500" dir="auto"></textarea>
+  <button class="btn" id="dm-go">Send message</button>
+  <div class="res" id="dm-res"></div>
+</div>
+
+<!-- AURA CARD -->
+<div class="sec" id="s-au">
+  <h2>Give an Aura card</h2>
+  <label>Username</label><input type="text" id="au-user" list="dm-names" placeholder="@username">
+  <label>Character</label>
+  <div class="aupick" id="au-pick">
+    <label data-i="0"><input type="radio" name="au-c" value="0"><img src="/aura/madara.jpg" alt=""><span>Madara</span></label>
+    <label data-i="1"><input type="radio" name="au-c" value="1"><img src="/aura/kira.jpg" alt=""><span>Kira</span></label>
+    <label data-i="2"><input type="radio" name="au-c" value="2"><img src="/aura/sukuna.jpg" alt=""><span>Sukuna</span></label>
+    <label data-i="3"><input type="radio" name="au-c" value="3"><img src="/aura/shanks.jpg" alt=""><span>Shanks</span></label>
+    <label data-i="4"><input type="radio" name="au-c" value="4"><img src="/aura/jinwoo.jpg" alt=""><span>Jinwoo</span></label>
+    <label data-i="5"><input type="radio" name="au-c" value="5"><img src="/aura/itachi.jpg" alt=""><span>Itachi</span></label>
+  </div>
+  <label>Message (optional)</label><textarea id="au-text" maxlength="300" dir="auto" placeholder="Shown to the player with the notification"></textarea>
+  <button class="btn" id="au-go">Send Aura card</button>
+  <div class="res" id="au-res"></div>
+</div>
+
+<!-- STAFF (owner only) -->
+<div class="sec" id="s-sf">
+  <h2>Staff</h2>
+  <p class="note">Only the owner can remove or restore staff. A removed staff member loses admin access and disappears from the staff card.</p>
+  <div id="sf-list"></div>
+  <div class="res" id="sf-res"></div>
+</div>
+
+<!-- RESET PASSWORD -->
+<div class="sec" id="s-rp">
+  <h2>Reset a user's password</h2>
+  <p class="note">This sends the user a link to pick a new password themselves. You will never see or set the password directly — the account owner is the only one who chooses it.</p>
+  <label>Username</label><input type="text" id="rp-user" list="dm-names" placeholder="@username">
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <button class="btn" id="rp-go">Send reset link</button>
+    <button class="btn g" id="rp-copy">Copy link</button>
+  </div>
+  <div class="res" id="rp-res"></div>
+  <input type="text" id="rp-link" readonly onclick="this.select()" style="display:none;margin-top:8px">
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = x => String(x == null ? '' : x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = t => t ? new Date(t).toLocaleString() : '—';
+async function api(m, u, b){
+  try{
+    const r = await fetch(u, { method: m, credentials: 'same-origin', headers: b ? {'Content-Type':'application/json'} : {}, body: b ? JSON.stringify(b) : undefined });
+    let j = {}; try{ j = await r.json() }catch(e){}
+    return { ok: r.ok, status: r.status, j };
+  }catch(e){ return { ok: false, status: 0, j: { error: 'network error' } } }
+}
+function say(id, ok, t){ const e = $(id); e.className = 'res ' + (ok ? 'ok' : 'bad'); e.textContent = t }
+function shrink(file, maxW, type){ // resize in the browser so uploads stay small
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload = () => { const im = new Image(); im.onload = () => {
+      let w = maxW;
+      for(;;){
+        const k = Math.min(1, w / im.width), c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(im.width * k)); c.height = Math.max(1, Math.round(im.height * k));
+        const x = c.getContext('2d');
+        if(type === 'image/jpeg'){ x.fillStyle = '#000'; x.fillRect(0, 0, c.width, c.height) }
+        x.drawImage(im, 0, 0, c.width, c.height);
+        const d = c.toDataURL(type, .84);
+        if(d.length < 420000 || w < 120) return res(d);
+        w = Math.round(w * .75);
+      }
+    }; im.onerror = rej; im.src = fr.result };
+    fr.onerror = rej; fr.readAsDataURL(file);
+  });
+}
+function bindImg(inp, prev, maxW, type, store){
+  $(inp).onchange = async e => {
+    const f = e.target.files[0]; store.v = null; $(prev).style.display = 'none';
+    if(!f) return;
+    try{ store.v = await shrink(f, maxW, type); $(prev).src = store.v; $(prev).style.display = 'block' }catch(x){ store.v = null }
+  };
+}
+// tabs
+$('tabs').onclick = e => {
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('.sec').forEach(x => x.classList.toggle('on', x.id === 's-' + b.dataset.t));
+  if(b.dataset.t === 'pk') loadCustom();
+  if(b.dataset.t === 'st') loadShop();
+  if(b.dataset.t === 'pb') loadAnn();
+  if(b.dataset.t === 'sf') loadStaff();
+};
+
+// ---- overview ----
+let USERS = [];
+async function loadUsers(){
+  const r = await api('GET', '/api/admin/users');
+  if(r.status === 401){ $('msg').textContent = 'Log in first.'; return }
+  if(r.status === 403){ $('msg').textContent = 'This account has no access to this page.'; return }
+  if(!r.ok){ $('msg').textContent = 'Server error.'; return }
+  USERS = r.j.users;
+  if(r.j.me === 'owner'){ $('tab-rp').style.display = ''; $('tab-sf').style.display = '' }
+  $('rows').innerHTML = USERS.map(u => `<tr><td>${esc(u.username)}${u.admin ? '<span class="badge">admin</span>' : ''}</td><td>${u.trades}</td><td>${u.cards}</td><td class="muted">${fmt(u.lastLogin)}</td></tr>`).join('') || '<tr><td colspan="4" class="muted">No accounts yet.</td></tr>';
+  $('msg').style.display = 'none'; $('tbl').style.display = 'table';
+  $('dm-names').innerHTML = USERS.map(u => `<option value="${esc(u.username)}">`).join('');
+  drawPick();
+}
+async function loadLog(){
+  const r = await api('GET', '/api/admin/log'); if(!r.ok) return;
+  $('ev').innerHTML = r.j.events.map(e => `<div><time>${fmt(e.t)}</time><span class="tag">${esc(e.type)}</span><b>${esc(e.u || '—')}</b><span>${esc(e.text)}</span></div>`).join('') || '<div class="muted">No activity yet.</div>';
+}
+loadUsers(); loadLog(); setInterval(() => { loadUsers(); loadLog() }, 10000);
+
+// ---- notify ----
+const SEL = new Set();
+function drawPick(){
+  const q = $('nt-q').value.trim().toLowerCase();
+  $('nt-list').innerHTML = USERS.filter(u => !q || u.username.toLowerCase().includes(q)).map(u => `<label><input type="checkbox" data-id="${esc(u.id)}" ${SEL.has(u.id) ? 'checked' : ''}>${esc(u.username)}</label>`).join('') || '<div class="note">No match.</div>';
+  $('nt-cnt').textContent = SEL.size + ' selected';
+}
+$('nt-to').onchange = () => { $('nt-pick').style.display = $('nt-to').value === 'sel' ? 'block' : 'none' };
+$('nt-q').oninput = drawPick;
+$('nt-list').onchange = e => { const i = e.target.dataset.id; if(!i) return; e.target.checked ? SEL.add(i) : SEL.delete(i); $('nt-cnt').textContent = SEL.size + ' selected' };
+$('nt-go').onclick = async () => {
+  const to = $('nt-to').value, b = { to, title: $('nt-title').value, text: $('nt-text').value };
+  if(to === 'sel'){ if(!SEL.size) return say('nt-res', false, 'Pick at least one user.'); b.ids = [...SEL] }
+  if(to === 'all' && !confirm('Send this to ALL users?')) return;
+  $('nt-go').disabled = true;
+  const r = await api('POST', '/api/admin/notify', b); $('nt-go').disabled = false;
+  if(r.ok){ say('nt-res', true, 'Sent to ' + r.j.sent + ' user(s).'); $('nt-title').value = ''; $('nt-text').value = '' } else say('nt-res', false, r.j.error || 'Failed.');
+};
+
+// ---- packs & cards ----
+const BUILTIN = { naruto:'Naruto', dbz:'Dragon Ball', ds:'Demon Slayer', bb:'Blue Box', bc:'Black Clover', hxh:'Hunter x Hunter', mha:'My Hero Academia', jjk:'Jujutsu Kaisen', op:'One Piece', aot:'Attack on Titan', cute:'Cute pack', leg:'Legendary pack' };
+const BASE = { naruto:8, dbz:8, ds:8, bb:6, bc:8, hxh:8, mha:8, jjk:7, op:8, aot:7, cute:15, leg:10 };
+let CUS = { packs: [], cards: {} };
+const logo = {}, cimg = {}, aimg = {};
+bindImg('pk-logo', 'pk-prev', 420, 'image/png', logo);
+bindImg('cd-img', 'cd-prev', 400, 'image/jpeg', cimg);
+bindImg('pb-img', 'pb-prev', 360, 'image/jpeg', aimg);
+async function loadCustom(){
+  const r = await api('GET', '/api/custom'); if(!r.ok) return;
+  CUS = r.j;
+  const keep = $('cd-pack').value;
+  const opts = Object.keys(BUILTIN).map(k => [k, BUILTIN[k]]).concat(CUS.packs.map(p => [p.id, p.en + ' / ' + p.ar + ' (new)']));
+  $('cd-pack').innerHTML = opts.map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('');
+  if(keep) $('cd-pack').value = keep;
+  $('pk-list').innerHTML = CUS.packs.length ? CUS.packs.map(p => `<div class="li"><img src="${esc(p.logo)}" alt=""><div class="t"><b>${esc(p.en)}</b> / ${esc(p.ar)}<div class="muted">${(CUS.cards[p.id] || []).length} cards</div></div></div>`).join('') : 'None yet.';
+  drawCards();
+}
+function drawCards(){
+  const k = $('cd-pack').value, L = CUS.cards[k] || [], base = BASE[k] || 0;
+  $('cd-note').textContent = 'Now ' + (base + L.length) + ' cards (' + base + ' built in, ' + L.length + ' added). Max 100. Cards can’t be deleted, because players may already own them.';
+  $('cd-grid').innerHTML = L.map((c, j) => `<div class="cd"><img src="${esc(c.img)}" alt=""><div><b>${esc(c.en)}</b>${esc(c.ar)}<br><span class="muted">#${base + j + 1}</span></div></div>`).join('');
+}
+$('cd-pack').onchange = drawCards;
+$('pk-go').onclick = async () => {
+  if(!logo.v) return say('pk-res', false, 'Choose a logo image first.');
+  $('pk-go').disabled = true;
+  const r = await api('POST', '/api/admin/pack', { ar: $('pk-ar').value, en: $('pk-en').value, logo: logo.v, g: [$('pk-c1').value, $('pk-c2').value, $('pk-c3').value] });
+  $('pk-go').disabled = false;
+  if(r.ok){ say('pk-res', true, 'Pack created. Now add cards to it below.'); $('pk-ar').value = $('pk-en').value = ''; $('pk-logo').value = ''; $('pk-prev').style.display = 'none'; logo.v = null; await loadCustom(); $('cd-pack').value = r.j.pack.id; drawCards() }
+  else say('pk-res', false, r.j.error || 'Failed.');
+};
+$('cd-go').onclick = async () => {
+  if(!cimg.v) return say('cd-res', false, 'Choose an image first.');
+  $('cd-go').disabled = true;
+  const r = await api('POST', '/api/admin/card', { pack: $('cd-pack').value, img: cimg.v, ar: $('cd-ar').value, en: $('cd-en').value });
+  $('cd-go').disabled = false;
+  if(r.ok){ say('cd-res', true, 'Card added (#' + (r.j.idx + 1) + ').'); $('cd-ar').value = $('cd-en').value = ''; $('cd-img').value = ''; $('cd-prev').style.display = 'none'; cimg.v = null; loadCustom() }
+  else say('cd-res', false, r.j.error || 'Failed.');
+};
+
+// ---- announcements ----
+async function loadAnn(){
+  const r = await api('GET', '/api/admin/announce'); if(!r.ok) return;
+  $('pb-list').innerHTML = r.j.items.length ? r.j.items.map(a => `<div class="li">${a.img ? `<img src="${esc(a.img)}" alt="">` : ''}<div class="t"><b>${esc(a.title)}</b><div class="muted">${esc(a.text)}</div><div class="muted">${a.until ? 'until ' + fmt(a.until) : 'no end date'}</div></div><button class="btn g s" data-del="${esc(a.id)}">Delete</button></div>`).join('') : 'None.';
+}
+$('pb-list').onclick = async e => { const id = e.target.dataset.del; if(!id) return; await api('DELETE', '/api/admin/announce/' + id); loadAnn() };
+$('pb-go').onclick = async () => {
+  $('pb-go').disabled = true;
+  const r = await api('POST', '/api/admin/announce', { title: $('pb-title').value, text: $('pb-text').value, img: aimg.v || null, days: Number($('pb-days').value) || 0 });
+  $('pb-go').disabled = false;
+  if(r.ok){ say('pb-res', true, 'Published.'); $('pb-title').value = $('pb-text').value = ''; $('pb-img').value = ''; $('pb-prev').style.display = 'none'; aimg.v = null; loadAnn() }
+  else say('pb-res', false, r.j.error || 'Failed.');
+};
+
+// ---- direct message ----
+async function rpMake(copy){
+  const user = $('rp-user').value.trim(); if(!user) return;
+  $('rp-go').disabled = $('rp-copy').disabled = true; $('rp-link').style.display = 'none';
+  const r = await api('POST', '/api/admin/reset-request', { user });
+  $('rp-go').disabled = $('rp-copy').disabled = false;
+  if(!r.ok){ say('rp-res', false, r.j.error || 'failed'); return; }
+  const full = location.origin + r.j.link;
+  const inp = $('rp-link'); inp.value = full; inp.style.display = 'block';
+  let copied = false;
+  if(copy){
+    try { await navigator.clipboard.writeText(full); copied = true; }
+    catch(e) { inp.select(); inp.setSelectionRange(0, 99999); try { copied = document.execCommand('copy'); } catch(e2) {} }
+  }
+  say('rp-res', true, 'Link for ' + r.j.to + ' (valid 30 min)' + (copied ? ' \u2014 copied \u2713, paste it on Discord/WhatsApp.' : '. Sent to the user as a notification.'));
+  $('rp-user').value = '';
+}
+$('rp-go').onclick = () => rpMake(false);
+$('rp-copy').onclick = () => rpMake(true);
+// ---- Aura card ----
+$('au-pick').onchange = () => document.querySelectorAll('#au-pick label').forEach(l => l.classList.toggle('on', l.querySelector('input').checked));
+$('au-go').onclick = async () => {
+  const c = document.querySelector('input[name="au-c"]:checked');
+  if(!$('au-user').value.trim()) return say('au-res', false, 'Enter a username.');
+  if(!c) return say('au-res', false, 'Pick a character.');
+  $('au-go').disabled = true;
+  const r = await api('POST', '/api/admin/aura-card', { user: $('au-user').value, i: Number(c.value), text: $('au-text').value });
+  $('au-go').disabled = false;
+  if(r.ok){ say('au-res', true, 'Aura card ' + r.j.card + ' sent to ' + r.j.to + '.'); $('au-text').value = ''; loadLog() } else say('au-res', false, r.j.error || 'Failed.');
+};
+$('dm-go').onclick = async () => {
+  $('dm-go').disabled = true;
+  const r = await api('POST', '/api/admin/dm', { user: $('dm-user').value, title: $('dm-title').value, text: $('dm-text').value });
+  $('dm-go').disabled = false;
+  if(r.ok){ say('dm-res', true, 'Sent to ' + r.j.to + '.'); $('dm-text').value = '' } else say('dm-res', false, r.j.error || 'Failed.');
+};
+
+// ---- staff (owner only) ----
+async function loadStaff(){
+  const r = await api('GET', '/api/admin/staff'); if(!r.ok) return;
+  $('sf-list').innerHTML = r.j.staff.map(s => `<div class="li"><span class="t"><b>@${esc(s.name)}</b> <span class="muted">${s.active ? 'active' : 'removed'}</span></span><button class="btn ${s.active ? 'g' : ''}" data-n="${esc(s.name)}" data-a="${s.active ? 'remove' : 'restore'}">${s.active ? 'Remove' : 'Restore'}</button></div>`).join('');
+}
+$('sf-list').onclick = async e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.dataset.a === 'remove' && !confirm('Remove @' + b.dataset.n + ' from staff?')) return;
+  const r = await api('POST', '/api/admin/staff/' + b.dataset.a, { name: b.dataset.n });
+  say('sf-res', r.ok, r.ok ? 'Done.' : (r.j.error || 'Failed.')); loadStaff();
+};
+
+// ---- store ----
+const simg = {};
+bindImg('st-img', 'st-prev', 900, 'image/jpeg', simg);
+async function loadShop(){
+  const r = await api('GET', '/api/admin/shop'); if(!r.ok) return;
+  $('st-list').innerHTML = r.j.items.length ? r.j.items.map(x => `<div class="li"><img src="/shop/img/${esc(x.id)}" alt="" style="${x.type==='pic'?'border-radius:50%;':''}width:56px;height:56px;object-fit:cover"><div class="t"><b>${x.type==='pic'?'Profile photo':'Banner'}</b>${x.off?' <span class="muted">(hidden)</span>':''}<div class="muted">${x.price} points</div></div><input type="number" min="0" value="${x.price}" style="width:90px" data-sp="${esc(x.id)}"><button class="btn" data-sv="${esc(x.id)}">Save</button><button class="btn" data-sh="${esc(x.id)}" data-off="${x.off?0:1}">${x.off?'Show':'Hide'}</button></div>`).join('') : 'None yet.';
+}
+$('st-list').onclick = async e => {
+  const sv = e.target.closest('[data-sv]'), sh = e.target.closest('[data-sh]');
+  if(sv){ const id = sv.dataset.sv, v = document.querySelector('[data-sp="'+id+'"]').value; await api('POST', '/api/admin/shop/' + id, { price: Number(v) }); loadShop() }
+  if(sh){ await api('POST', '/api/admin/shop/' + sh.dataset.sh, { off: sh.dataset.off === '1' }); loadShop() }
+};
+$('st-go').onclick = async () => {
+  if(!simg.v) return say('st-res', false, 'Choose an image first.');
+  const r = await api('POST', '/api/admin/shop', { type: $('st-type').value, img: simg.v, price: Number($('st-price').value) });
+  if(r.ok){ say('st-res', true, 'Added to the Store.'); $('st-img').value = ''; $('st-prev').style.display = 'none'; simg.v = null; loadShop() }
+  else say('st-res', false, r.j.error || 'Error');
+};
+
+$('pt-go').onclick = async () => {
+  $('pt-go').disabled = true;
+  const r = await api('POST', '/api/admin/points', { user: $('pt-user').value, amount: Number($('pt-n').value) });
+  $('pt-go').disabled = false;
+  if(r.ok) say('pt-res', true, r.j.to + ' now has ' + r.j.pts + ' points.'); else say('pt-res', false, r.j.error || 'Failed.');
+};
+</script>
+</body>
+</html>
